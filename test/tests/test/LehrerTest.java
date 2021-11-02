@@ -9,44 +9,44 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LehrerTest {
-    private final Lehrer l1 = new Lehrer("Alice", "Hart", 1);
+    private final Lehrer lehrer1 = new Lehrer("Alice", "Hart", 1);
 
     @Test
     void getVorname() {
-        assertEquals("Alice", l1.getVorname());
+        assertEquals("Alice", lehrer1.getVorname());
     }
 
     @Test
     void getNachname() {
-        assertEquals("Hart", l1.getNachname());
+        assertEquals("Hart", lehrer1.getNachname());
     }
 
     @Test
     void getLehrerID() {
-        assertEquals(1, l1.getLehrerID());
+        assertEquals(1, lehrer1.getLehrerID());
     }
 
     @Test
     void getVorlesungen() {
-        assertEquals(0, l1.getVorlesungen().size());
+        assertEquals(0, lehrer1.getVorlesungen().size());
     }
 
     @Test
     void setVorname() {
-        l1.setVorname("Zoe");
-        assertEquals("Zoe", l1.getVorname());
+        lehrer1.setVorname("Zoe");
+        assertEquals("Zoe", lehrer1.getVorname());
     }
 
     @Test
     void setNachname() {
-        l1.setNachname("Miller");
-        assertEquals("Miller", l1.getNachname());
+        lehrer1.setNachname("Miller");
+        assertEquals("Miller", lehrer1.getNachname());
     }
 
     @Test
     void setLehrerID() {
-        l1.setLehrerID(12);
-        assertEquals(12, l1.getLehrerID());
+        lehrer1.setLehrerID(12);
+        assertEquals(12, lehrer1.getLehrerID());
     }
 
     @Test
@@ -54,7 +54,7 @@ class LehrerTest {
         List<Long> list = new ArrayList<Long>();
         list.add(list.size(), 12L);
         list.add(list.size(), 14L);
-        l1.setVorlesungen(list);
-        assertEquals(2, l1.getVorlesungen().size());
+        lehrer1.setVorlesungen(list);
+        assertEquals(2, lehrer1.getVorlesungen().size());
     }
 }

@@ -14,78 +14,78 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InMemoryRepositoryTest {
     private final PersonRepository personRepository = new PersonRepository();
-    private final Person p1 = new Person("Alice", "Hart");
+    private final Person person1 = new Person("Alice", "Hart");
 
     private final StudentRepository studentRepository = new StudentRepository();
-    private final Student s1 = new Student("Zoe", "Miller", 11);
+    private final Student student1 = new Student("Zoe", "Miller", 11);
 
     private final LehrerRepository lehrerRepository = new LehrerRepository();
-    private final Lehrer l1 = new Lehrer("Tom", "John", 1);
+    private final Lehrer lehrer1 = new Lehrer("Tom", "John", 1);
 
     private final VorlesungRepository vorlesungRepository = new VorlesungRepository();
-    private final Vorlesung v1 = new Vorlesung("BD", 1, 11, 30, 5);
+    private final Vorlesung vorlesung1 = new Vorlesung("BD", 1, 11, 30, 5);
 
     @Test
     void findOne() {
-        personRepository.save(p1);
-        assertEquals(p1, personRepository.findOne(0));
+        personRepository.save(person1);
+        assertEquals(person1, personRepository.findOne(0));
 
-        studentRepository.save(s1);
-        assertEquals(s1, studentRepository.findOne(0));
+        studentRepository.save(student1);
+        assertEquals(student1, studentRepository.findOne(0));
 
-        lehrerRepository.save(l1);
-        assertEquals(l1, lehrerRepository.findOne(0));
+        lehrerRepository.save(lehrer1);
+        assertEquals(lehrer1, lehrerRepository.findOne(0));
 
-        vorlesungRepository.save(v1);
-        assertEquals(v1, vorlesungRepository.findOne(0));
+        vorlesungRepository.save(vorlesung1);
+        assertEquals(vorlesung1, vorlesungRepository.findOne(0));
     }
 
     @Test
     void findAll() {
-        personRepository.save(p1);
+        personRepository.save(person1);
         assertEquals(1, personRepository.findAll().size());
 
-        studentRepository.save(s1);
+        studentRepository.save(student1);
         assertEquals(1, studentRepository.findAll().size());
 
-        lehrerRepository.save(l1);
+        lehrerRepository.save(lehrer1);
         assertEquals(1, lehrerRepository.findAll().size());
 
-        vorlesungRepository.save(v1);
+        vorlesungRepository.save(vorlesung1);
         assertEquals(1, vorlesungRepository.findAll().size());
     }
 
     @Test
     void save() {
-        assertEquals(p1, personRepository.save(p1));
+        assertEquals(person1, personRepository.save(person1));
 
-        assertEquals(s1, studentRepository.save(s1));
+        assertEquals(student1, studentRepository.save(student1));
 
-        assertEquals(l1, lehrerRepository.save(l1));
+        assertEquals(lehrer1, lehrerRepository.save(lehrer1));
 
-        assertEquals(v1, vorlesungRepository.save(v1));
+        assertEquals(vorlesung1, vorlesungRepository.save(vorlesung1));
     }
 
     @Test
     void delete() {
-        personRepository.save(p1);
+        personRepository.save(person1);
         assertEquals(1, personRepository.findAll().size());
-        personRepository.delete(p1);
+        personRepository.delete(person1);
         assertEquals(0, personRepository.findAll().size());
 
-        studentRepository.save(s1);
+        studentRepository.save(student1);
         assertEquals(1, studentRepository.findAll().size());
-        studentRepository.delete(s1);
+        studentRepository.delete(student1);
         assertEquals(0, studentRepository.findAll().size());
 
-        lehrerRepository.save(l1);
+        lehrerRepository.save(lehrer1);
         assertEquals(1, lehrerRepository.findAll().size());
-        lehrerRepository.delete(l1);
+        lehrerRepository.delete(lehrer1);
         assertEquals(0, lehrerRepository.findAll().size());
 
-        vorlesungRepository.save(v1);
+        vorlesungRepository.save(vorlesung1);
         assertEquals(1, vorlesungRepository.findAll().size());
-        vorlesungRepository.delete(v1);
+        vorlesungRepository.delete(vorlesung1);
         assertEquals(0, vorlesungRepository.findAll().size());
 
     }

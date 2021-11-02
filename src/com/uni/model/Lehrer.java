@@ -7,7 +7,7 @@ public class Lehrer extends Person{
     private long lehrerID;
     private List<Long> vorlesungen;
     /**
-     * //wir erstellen ein neues Objekt von Typ "Person"
+     * //wir erstellen ein neues Objekt von Typ "Lehrer"
      *
      * @param vorname  ein String
      * @param nachname ein String

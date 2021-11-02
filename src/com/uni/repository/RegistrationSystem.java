@@ -57,11 +57,11 @@ public class RegistrationSystem {
      * wir aktualisieren die Listen aus der Student-, Vorlesung- und LehrerRepository
      */
     public boolean register(Vorlesung vorlesung, Student student) throws IOException {
-        boolean okV= false, okS= false;
+        boolean okVorlesung= false, okStudent= false;
         for (int i = 0; i < this.vorlesungRepository.repoList.size(); i++)
         {
             if (vorlesung.getVorlesungID() == this.vorlesungRepository.repoList.get(i).getVorlesungID()){
-                okV= true;
+                okVorlesung= true;
                 break;
             }
         }
@@ -69,12 +69,12 @@ public class RegistrationSystem {
         for (int i = 0; i < this.studentRepository.repoList.size(); i++)
         {
             if (student.getStudentID() == this.studentRepository.repoList.get(i).getStudentID()) {
-                okS = true;
+                okStudent = true;
                 break;
             }
         }
 
-        if (!okV || !okS) {
+        if (!okVorlesung || !okStudent) {
             throw new IOException();
         }
 
@@ -83,20 +83,20 @@ public class RegistrationSystem {
         else if(student.getTotalCredits() + vorlesung.getCredits() > 30)
             throw new IOException();
         else {
-            boolean okLV = false, okLS = false;
+            boolean okListeVorlesung = false, okListeStudent = false;
             List<Long> listVorlesungen = new ArrayList<>();
             for (int i = 0; i < studentRepository.repoList.size(); i++) {
                 if (studentRepository.repoList.get(i).getStudentID() == student.getStudentID()) {
                     for (int j = 0; j < studentRepository.repoList.get(i).getEnrolledCourses().size(); j++) {
                         listVorlesungen.add(studentRepository.repoList.get(i).getEnrolledCourses().get(j));
                         if (studentRepository.repoList.get(i).getEnrolledCourses().get(j) == vorlesung.getVorlesungID()) {
-                            okLV = true;
+                            okListeVorlesung = true;
                         }
                     }
                 }
             }
 
-            if (!okLV) {
+            if (!okListeVorlesung) {
                 listVorlesungen.add(vorlesung.getVorlesungID());
             }
 
@@ -107,12 +107,12 @@ public class RegistrationSystem {
                     for (int j = 0; j < vorlesungRepository.repoList.get(i).getStudentsEnrolled().size(); j++) {
                         listStudenten.add(vorlesungRepository.repoList.get(i).getStudentsEnrolled().get(j));
                         if (vorlesungRepository.repoList.get(i).getStudentsEnrolled().get(j) == student.getStudentID()) {
-                            okLS = true;
+                            okListeStudent = true;
                         }
                     }
                 }
             }
-            if (!okLS) {
+            if (!okListeStudent) {
                 listStudenten.add(student.getStudentID());
             }
 
@@ -153,12 +153,12 @@ public class RegistrationSystem {
      * wir aktualisieren die Listen aus der Student-, Vorlesung- und LehrerRepository
      */
     public boolean register(long VorlesungID, long StudentID) throws IOException{
-        boolean okV= false, okS= false;
+        boolean okVorlesung= false, okStudent= false;
         int indexVorlesung = 0, indexStudent = 0;
         for (int i = 0; i < this.vorlesungRepository.repoList.size(); i++) {
             if (VorlesungID == this.vorlesungRepository.repoList.get(i).getVorlesungID()){
                 indexVorlesung = i;
-                okV= true;
+                okVorlesung= true;
                 break;
             }
         }
@@ -167,12 +167,12 @@ public class RegistrationSystem {
         {
             if (StudentID == this.studentRepository.repoList.get(i).getStudentID()) {
                 indexStudent = i;
-                okS = true;
+                okStudent = true;
                 break;
             }
         }
 
-        if (!okV || !okS) {
+        if (!okVorlesung || !okStudent) {
             throw new IOException();
         }
 
@@ -347,31 +347,31 @@ public class RegistrationSystem {
                     return true;
                 }
                 else {
-                    Vorlesung v = this.vorlesungRepository.repoList.get(i);
-                    Vorlesung newVorlesung = new Vorlesung(v.getName(),
-                            v.getLehrer(),
-                            v.getVorlesungID(),
-                            v.getMaxEnrollment(),
-                            v.getStudentsEnrolled(),
+                    Vorlesung vorlesung = this.vorlesungRepository.repoList.get(i);
+                    Vorlesung newVorlesung = new Vorlesung(vorlesung.getName(),
+                            vorlesung.getLehrer(),
+                            vorlesung.getVorlesungID(),
+                            vorlesung.getMaxEnrollment(),
+                            vorlesung.getStudentsEnrolled(),
                             newCredit);
 
-                    for (int j = 0; j < v.getStudentsEnrolled().size(); j++) {
-                        unregister(v.getVorlesungID(), v.getStudentsEnrolled().get(j));
+                    for (int j = 0; j < vorlesung.getStudentsEnrolled().size(); j++) {
+                        unregister(vorlesung.getVorlesungID(), vorlesung.getStudentsEnrolled().get(j));
                     }
 
                     this.vorlesungRepository.update(newVorlesung);
 
                     List<Long> listStudenten = new ArrayList<>();
-                    for (int j = 0; j < v.getStudentsEnrolled().size(); j++) {
-                        if(register(v.getVorlesungID(), v.getStudentsEnrolled().get(j))){
-                            listStudenten.add(v.getStudentsEnrolled().get(j));
+                    for (int j = 0; j < vorlesung.getStudentsEnrolled().size(); j++) {
+                        if(register(vorlesung.getVorlesungID(), vorlesung.getStudentsEnrolled().get(j))){
+                            listStudenten.add(vorlesung.getStudentsEnrolled().get(j));
                         }
                     }
 
-                    Vorlesung newVorlesung2 = new Vorlesung(v.getName(),
-                            v.getLehrer(),
-                            v.getVorlesungID(),
-                            v.getMaxEnrollment(),
+                    Vorlesung newVorlesung2 = new Vorlesung(vorlesung.getName(),
+                            vorlesung.getLehrer(),
+                            vorlesung.getVorlesungID(),
+                            vorlesung.getMaxEnrollment(),
                             listStudenten,
                             newCredit);
 

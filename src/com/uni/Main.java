@@ -11,85 +11,85 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Student s1 = new Student("Zoe", "Miller", 1111);
-        Student s2 = new Student("Alice", "Hart", 1112);
+        Student student1 = new Student("Zoe", "Miller", 1111);
+        Student student2 = new Student("Alice", "Hart", 1112);
 
-        Lehrer l1 = new Lehrer("Tom", "John", 1);
-        Lehrer l2 = new Lehrer("Jack", "Storm", 2);
+        Lehrer lehrer1 = new Lehrer("Tom", "John", 1);
+        Lehrer lehrer2 = new Lehrer("Jack", "Storm", 2);
 
-        Vorlesung v1 = new Vorlesung("BD", l1.getLehrerID(), 100, 30, 5);
-        Vorlesung v2 = new Vorlesung("BD2", l2.getLehrerID(), 101, 31, 6);
-        Vorlesung v3 = new Vorlesung("BD3", l1.getLehrerID(), 102, 32, 7);
+        Vorlesung vorlesung1 = new Vorlesung("BD", lehrer1.getLehrerID(), 100, 30, 5);
+        Vorlesung vorlesung2 = new Vorlesung("BD2", lehrer2.getLehrerID(), 101, 31, 6);
+        Vorlesung vorlesung3 = new Vorlesung("BD3", lehrer1.getLehrerID(), 102, 32, 7);
 
         RegistrationSystem registrationSystem = new RegistrationSystem();
-        registrationSystem.getStudentRepository().save(s1);
-        registrationSystem.getStudentRepository().save(s2);
+        registrationSystem.getStudentRepository().save(student1);
+        registrationSystem.getStudentRepository().save(student2);
 
-        registrationSystem.getLehrerRepository().save(l1);
-        registrationSystem.getLehrerRepository().save(l2);
+        registrationSystem.getLehrerRepository().save(lehrer1);
+        registrationSystem.getLehrerRepository().save(lehrer2);
 
-        registrationSystem.getVorlesungRepository().save(v1);
-        registrationSystem.getVorlesungRepository().save(v2);
-        registrationSystem.getVorlesungRepository().save(v3);
+        registrationSystem.getVorlesungRepository().save(vorlesung1);
+        registrationSystem.getVorlesungRepository().save(vorlesung2);
+        registrationSystem.getVorlesungRepository().save(vorlesung3);
 
         System.out.println("Studenten List");
-        for (Student s:registrationSystem.getAllStudents()) {
-            System.out.println(s);
+        for (Student student:registrationSystem.getAllStudents()) {
+            System.out.println(student);
         }
 
         System.out.println("Lehrer List");
-        for (Lehrer l:registrationSystem.getAllLehrer()) {
-            System.out.println(l);
+        for (Lehrer lehrer:registrationSystem.getAllLehrer()) {
+            System.out.println(lehrer);
         }
         System.out.println("Vorlesungen List");
-        for (Vorlesung v:registrationSystem.getAllCourses()) {
-            System.out.println(v);
+        for (Vorlesung vorlesung:registrationSystem.getAllCourses()) {
+            System.out.println(vorlesung);
         }
 
-        registrationSystem.register(v1, s1);
-        registrationSystem.register(v1.getVorlesungID(), s2.getStudentID());
-        registrationSystem.register(v2, s1);
-        registrationSystem.register(v2.getVorlesungID(), s2.getStudentID());
+        registrationSystem.register(vorlesung1, student1);
+        registrationSystem.register(vorlesung1.getVorlesungID(), student2.getStudentID());
+        registrationSystem.register(vorlesung2, student1);
+        registrationSystem.register(vorlesung2.getVorlesungID(), student2.getStudentID());
 
         System.out.println("\n");
         System.out.println("Studenten List");
-        for (Student s:registrationSystem.getAllStudents()) {
-            System.out.println(s);
+        for (Student student:registrationSystem.getAllStudents()) {
+            System.out.println(student);
         }
 
         System.out.println("Lehrer List");
-        for (Lehrer l:registrationSystem.getAllLehrer()) {
-            System.out.println(l);
+        for (Lehrer lehrer:registrationSystem.getAllLehrer()) {
+            System.out.println(lehrer);
         }
         System.out.println("Vorlesungen List");
-        for (Vorlesung v:registrationSystem.getAllCourses()) {
-            System.out.println(v);
+        for (Vorlesung vorlesung:registrationSystem.getAllCourses()) {
+            System.out.println(vorlesung);
         }
 
-        registrationSystem.unregister(v2.getVorlesungID(), s2.getStudentID());
+        registrationSystem.unregister(vorlesung2.getVorlesungID(), student2.getStudentID());
 
         System.out.println("\n");
         System.out.println("Angemeldeten Studenten fur Vorlesung");
-        System.out.println(registrationSystem.retrieveStudentsEnrolledForACourse(v1.getVorlesungID()));
-        System.out.println(registrationSystem.retrieveStudentsEnrolledForACourse(v2.getVorlesungID()));
-        System.out.println(registrationSystem.retrieveStudentsEnrolledForACourse(v3.getVorlesungID()));
+        System.out.println(registrationSystem.retrieveStudentsEnrolledForACourse(vorlesung1.getVorlesungID()));
+        System.out.println(registrationSystem.retrieveStudentsEnrolledForACourse(vorlesung2.getVorlesungID()));
+        System.out.println(registrationSystem.retrieveStudentsEnrolledForACourse(vorlesung3.getVorlesungID()));
 
         System.out.println("Freie Platze");
-        for (Map.Entry m: registrationSystem.retrieveCoursesWithFreePlaces().entrySet()) {
-            System.out.println(m.getKey() + " " + m.getValue());
+        for (Map.Entry map: registrationSystem.retrieveCoursesWithFreePlaces().entrySet()) {
+            System.out.println(map.getKey() + " " + map.getValue());
         }
 
         registrationSystem.changeCreditFromACourse(100, 10);
         System.out.println("Vorlesungen List");
-        for (Vorlesung v:registrationSystem.getAllCourses()) {
-            System.out.println(v);
+        for (Vorlesung vorlesung:registrationSystem.getAllCourses()) {
+            System.out.println(vorlesung);
         }
 
         System.out.println("Delete Vorlesung");
-        registrationSystem.deleteVorlesungFromLehrer(l1.getLehrerID(), v3.getVorlesungID());
+        registrationSystem.deleteVorlesungFromLehrer(lehrer1.getLehrerID(), vorlesung3.getVorlesungID());
         System.out.println("Vorlesungen List");
-        for (Vorlesung v:registrationSystem.getAllCourses()) {
-            System.out.println(v);
+        for (Vorlesung vorlesung:registrationSystem.getAllCourses()) {
+            System.out.println(vorlesung);
         }
     }
 }

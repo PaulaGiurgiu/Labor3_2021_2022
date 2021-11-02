@@ -6,27 +6,27 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
-    private final Person p1 = new Person("Alice", "Hart");
+    private final Person person1 = new Person("Alice", "Hart");
 
     @Test
     void getVorname() {
-        assertEquals("Alice", p1.getVorname());
+        assertEquals("Alice", person1.getVorname());
     }
 
     @Test
     void getNachname() {
-        assertEquals("Hart", p1.getNachname());
+        assertEquals("Hart", person1.getNachname());
     }
 
     @Test
     void setVorname() {
-        p1.setVorname("Zoe");
-        assertEquals("Zoe", p1.getVorname());
+        person1.setVorname("Zoe");
+        assertEquals("Zoe", person1.getVorname());
     }
 
     @Test
     void setNachname() {
-        p1.setNachname("Miller");
-        assertEquals("Miller", p1.getNachname());
+        person1.setNachname("Miller");
+        assertEquals("Miller", person1.getNachname());
     }
 }

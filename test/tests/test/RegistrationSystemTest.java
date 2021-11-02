@@ -15,36 +15,36 @@ import java.util.List;
 class RegistrationSystemTest {
     private RegistrationSystem registrationSystem = new RegistrationSystem();
 
-    private final Student s1 = new Student("Zoe", "Miller", 1111);
-    private final Student s2 = new Student("Alice", "Hart", 1112);
-    private final Student s3 = new Student("Alice", "Miller", 1113);
+    private final Student student1 = new Student("Zoe", "Miller", 1111);
+    private final Student student2 = new Student("Alice", "Hart", 1112);
+    private final Student student3 = new Student("Alice", "Miller", 1113);
 
-    private final Lehrer l1 = new Lehrer("Tom", "John", 1);
-    private final Lehrer l2 = new Lehrer("Jack", "Storm", 2);
+    private final Lehrer lehrer1 = new Lehrer("Tom", "John", 1);
+    private final Lehrer lehrer2 = new Lehrer("Jack", "Storm", 2);
 
-    private final Vorlesung v1 = new Vorlesung("BD", l1.getLehrerID(), 100, 30, 5);
-    private final Vorlesung v2 = new Vorlesung("BD2", l2.getLehrerID(), 101, 31, 6);
-    private final Vorlesung v3 = new Vorlesung("BD3", l1.getLehrerID(), 102, 32, 7);
+    private final Vorlesung vorlesung1 = new Vorlesung("BD", lehrer1.getLehrerID(), 100, 30, 5);
+    private final Vorlesung vorlesung2 = new Vorlesung("BD2", lehrer2.getLehrerID(), 101, 31, 6);
+    private final Vorlesung vorlesung3 = new Vorlesung("BD3", lehrer1.getLehrerID(), 102, 32, 7);
 
     public RegistrationSystemTest(){
 
-        registrationSystem.getStudentRepository().save(s1);
-        registrationSystem.getStudentRepository().save(s2);
+        registrationSystem.getStudentRepository().save(student1);
+        registrationSystem.getStudentRepository().save(student2);
 
-        registrationSystem.getLehrerRepository().save(l1);
-        registrationSystem.getLehrerRepository().save(l2);
+        registrationSystem.getLehrerRepository().save(lehrer1);
+        registrationSystem.getLehrerRepository().save(lehrer2);
 
-        registrationSystem.getVorlesungRepository().save(v1);
-        registrationSystem.getVorlesungRepository().save(v2);
-        registrationSystem.getVorlesungRepository().save(v3);
+        registrationSystem.getVorlesungRepository().save(vorlesung1);
+        registrationSystem.getVorlesungRepository().save(vorlesung2);
+        registrationSystem.getVorlesungRepository().save(vorlesung3);
     }
 
     @Test
     void register() throws IOException {
-        Assertions.assertTrue(registrationSystem.register(v1, s1));
-        Assertions.assertTrue(registrationSystem.register(v1, s2));
-        Assertions.assertTrue(registrationSystem.register(v2, s1));
-        Assertions.assertTrue(registrationSystem.register(v2, s2));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1, student1));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1, student2));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2, student1));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2, student2));
 
         List<Long> list = new ArrayList<>();
         Assertions.assertEquals(100, registrationSystem.getVorlesungRepository().findOne(0).getVorlesungID());
@@ -75,25 +75,25 @@ class RegistrationSystemTest {
 
         list.clear();
         Assertions.assertEquals(1, registrationSystem.getLehrerRepository().findOne(0).getLehrerID());
-        list.add(v1.getVorlesungID());
-        list.add(v3.getVorlesungID());
+        list.add(vorlesung1.getVorlesungID());
+        list.add(vorlesung3.getVorlesungID());
         Assertions.assertEquals(list, registrationSystem.getLehrerRepository().findOne(0).getVorlesungen());
 
         list.clear();
         Assertions.assertEquals(2, registrationSystem.getLehrerRepository().findOne(1).getLehrerID());
-        list.add(v2.getVorlesungID());
+        list.add(vorlesung2.getVorlesungID());
         Assertions.assertEquals(list, registrationSystem.getLehrerRepository().findOne(1).getVorlesungen());
 
     }
 
     @Test
     void testRegister() throws IOException {
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s2.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student2.getStudentID()));
         try {
-            Assertions.assertTrue(registrationSystem.register(v3.getVorlesungID(), s3.getStudentID()));
+            Assertions.assertTrue(registrationSystem.register(vorlesung3.getVorlesungID(), student3.getStudentID()));
         }
         catch (IOException ioException){
             System.out.println("Die Daten konnten nicht aktualisieren. Bitte versuch mit anderen eingefugten Daten.\n");
@@ -128,13 +128,13 @@ class RegistrationSystemTest {
 
         list.clear();
         Assertions.assertEquals(1, registrationSystem.getLehrerRepository().findOne(0).getLehrerID());
-        list.add(v1.getVorlesungID());
-        list.add(v3.getVorlesungID());
+        list.add(vorlesung1.getVorlesungID());
+        list.add(vorlesung3.getVorlesungID());
         Assertions.assertEquals(list, registrationSystem.getLehrerRepository().findOne(0).getVorlesungen());
 
         list.clear();
         Assertions.assertEquals(2, registrationSystem.getLehrerRepository().findOne(1).getLehrerID());
-        list.add(v2.getVorlesungID());
+        list.add(vorlesung2.getVorlesungID());
         Assertions.assertEquals(list, registrationSystem.getLehrerRepository().findOne(1).getVorlesungen());
     }
 
@@ -142,7 +142,7 @@ class RegistrationSystemTest {
     void unregister() throws IOException {
         register();
 
-        registrationSystem.unregister(v1.getVorlesungID(), s1.getStudentID());
+        registrationSystem.unregister(vorlesung1.getVorlesungID(), student1.getStudentID());
 
         List<Long> list = new ArrayList<>();
         Assertions.assertEquals(100, registrationSystem.getVorlesungRepository().findOne(0).getVorlesungID());
@@ -169,7 +169,7 @@ class RegistrationSystemTest {
         Assertions.assertEquals(11, registrationSystem.getStudentRepository().findOne(1).getTotalCredits());
 
 
-        registrationSystem.unregister(v2.getVorlesungID(), s2.getStudentID());
+        registrationSystem.unregister(vorlesung2.getVorlesungID(), student2.getStudentID());
 
         list.clear();
         Assertions.assertEquals(100, registrationSystem.getVorlesungRepository().findOne(0).getVorlesungID());
@@ -197,33 +197,33 @@ class RegistrationSystemTest {
 
     @Test
     void retrieveCoursesWithFreePlaces() throws IOException {
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s2.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student2.getStudentID()));
 
         HashMap<Integer, Vorlesung> map = new HashMap<Integer, Vorlesung>();
-        map.put(32, v3);
-        map.put(28, v1);
-        map.put(29, v2);
+        map.put(32, vorlesung3);
+        map.put(28, vorlesung1);
+        map.put(29, vorlesung2);
         Assertions.assertEquals(map, registrationSystem.retrieveCoursesWithFreePlaces());
 
     }
 
     @Test
     void retrieveStudentsEnrolledForACourse() throws IOException {
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s2.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student2.getStudentID()));
 
         List<Long> list = new ArrayList<>();
         list.add(1111L);
         list.add(1112L);
-        Assertions.assertEquals(list, registrationSystem.retrieveStudentsEnrolledForACourse(v1.getVorlesungID()));
-        Assertions.assertEquals(list, registrationSystem.retrieveStudentsEnrolledForACourse(v2.getVorlesungID()));
+        Assertions.assertEquals(list, registrationSystem.retrieveStudentsEnrolledForACourse(vorlesung1.getVorlesungID()));
+        Assertions.assertEquals(list, registrationSystem.retrieveStudentsEnrolledForACourse(vorlesung2.getVorlesungID()));
         list.clear();
-        Assertions.assertEquals(list, registrationSystem.retrieveStudentsEnrolledForACourse(v3.getVorlesungID()));
+        Assertions.assertEquals(list, registrationSystem.retrieveStudentsEnrolledForACourse(vorlesung3.getVorlesungID()));
 
     }
 
@@ -247,8 +247,8 @@ class RegistrationSystemTest {
 
     @Test
     void changeCreditFromACourse() throws IOException {
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student1.getStudentID()));
 
         Assertions.assertTrue(registrationSystem.changeCreditFromACourse(100, 10));
         Assertions.assertEquals(1111, registrationSystem.getStudentRepository().findOne(0).getStudentID());
@@ -257,17 +257,17 @@ class RegistrationSystemTest {
 
     @Test
     void deleteVorlesungFromLehrer() throws IOException {
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v1.getVorlesungID(), s2.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s1.getStudentID()));
-        Assertions.assertTrue(registrationSystem.register(v2.getVorlesungID(), s2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung1.getVorlesungID(), student2.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student1.getStudentID()));
+        Assertions.assertTrue(registrationSystem.register(vorlesung2.getVorlesungID(), student2.getStudentID()));
 
-        Assertions.assertTrue(registrationSystem.deleteVorlesungFromLehrer(l1.getLehrerID(), v1.getVorlesungID()));
-        Assertions.assertTrue(!registrationSystem.deleteVorlesungFromLehrer(l1.getLehrerID(), v2.getVorlesungID()));
+        Assertions.assertTrue(registrationSystem.deleteVorlesungFromLehrer(lehrer1.getLehrerID(), vorlesung1.getVorlesungID()));
+        Assertions.assertTrue(!registrationSystem.deleteVorlesungFromLehrer(lehrer1.getLehrerID(), vorlesung2.getVorlesungID()));
 
         List<Vorlesung> list = new ArrayList<>();
-        list.add(v2);
-        list.add(v3);
+        list.add(vorlesung2);
+        list.add(vorlesung3);
         Assertions.assertEquals(list, registrationSystem.getAllCourses());
     }
 }
